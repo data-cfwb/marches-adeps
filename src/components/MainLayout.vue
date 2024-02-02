@@ -68,50 +68,57 @@ const mobileFiltersOpen = ref(false);
                 </div>
   
                 <!-- Filters -->
-                <form class="mt-4">
-                  <Disclosure
-                    v-for="section in filters"
-                    :key="section.name"
-                    v-slot="{ open }"
-                    as="div"
-                    class="border-t border-gray-200 pb-4 pt-4"
-                  >
-                    <fieldset>
-                      <legend class="w-full px-2">
-                        <DisclosureButton class="flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500">
-                          <span class="text-sm font-medium text-gray-900">{{ section.name }}</span>
-                          <span class="ml-6 flex h-7 items-center">
-                            <ChevronDownIcon
-                              :class="[open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform']"
-                              aria-hidden="true"
-                            />
-                          </span>
-                        </DisclosureButton>
-                      </legend>
-                      <DisclosurePanel class="px-4 pb-2 pt-4">
-                        <div class="space-y-6">
-                          <div
-                            v-for="(option, optionIdx) in section.options"
-                            :key="option.value"
-                            class="flex items-center"
-                          >
-                            <input
-                              :id="`${section.id}-${optionIdx}-mobile`"
-                              :name="`${section.id}[]`"
-                              :value="option.value"
-                              type="checkbox"
-                              class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                            >
-                            <label
-                              :for="`${section.id}-${optionIdx}-mobile`"
-                              class="ml-3 text-sm text-gray-500"
-                            >{{ option.label }}</label>
-                          </div>
-                        </div>
-                      </DisclosurePanel>
-                    </fieldset>
-                  </Disclosure>
-                </form>
+                <Disclosure
+                  v-for="section in filters"
+                  :key="section.name"
+                  v-slot="{ open }"
+                  as="div"
+                  class="border-t border-gray-200 pb-4 pt-4"
+                >
+                  <fieldset>
+                    <legend class="w-full px-2">
+                      <DisclosureButton class="flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500">
+                        <span class="text-sm font-medium text-gray-900">{{ section.name }}</span>
+                        <span class="ml-6 flex h-7 items-center">
+                          <ChevronDownIcon
+                            :class="[open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform']"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      </DisclosureButton>
+                    </legend>
+                    <DisclosurePanel class="px-4 pb-2 pt-4">
+                      <div class="space-y-3 pt-6">
+                        <button
+                          v-for="option in section.options"
+                          :key="option"
+                          class="flex items-center"
+                          @click="filterCategory(section.id, option)"
+                        >
+                          {{ option }}
+                        </button>
+                      </div>
+                      <div
+                        v-if="data_loaded"
+                        class="py-6"
+                      >
+                        <button
+                          class="relative flex items-center space-x-3"
+                          @click="nextMarches"
+                        >
+                          Semaine suivante
+                        </button>
+
+                        <button
+                          class="relative flex items-center space-x-3"
+                          @click="resetFilter"
+                        >
+                          Voir tout
+                        </button>
+                      </div>
+                    </DisclosurePanel>
+                  </fieldset>
+                </Disclosure>
               </DialogPanel>
             </TransitionChild>
           </div>
@@ -165,14 +172,14 @@ const mobileFiltersOpen = ref(false);
                       {{ section.name }}
                     </legend>
                     <div class="space-y-3 pt-6">
-                      <div
+                      <button
                         v-for="option in section.options"
                         :key="option"
                         class="flex items-center"
                         @click="filterCategory(section.id, option)"
                       >
                         {{ option }}
-                      </div>
+                      </button>
                     </div>
                   </fieldset>
                 </div>
@@ -293,12 +300,10 @@ export default {
       return this.active ? 'ON' : 'OFF';
     },
     distinctProvince() {
-      this.filters[0].options = [...new Set(this.marches.map(marche => marche.province))].sort();
       // order by province
       return [...new Set(this.marches.map(marche => marche.province))].sort();
     },
     distinctDate() {
-      this.filters[1].options = [...new Set(this.marches.map(marche => marche.date))];
       return [...new Set(this.marches.map(marche => marche.date))];
     },
     addDiffDays() {
@@ -321,6 +326,11 @@ export default {
     this.getMarches();
   },
   methods: {
+    defineFilters() {
+      for (let i = 0; i < this.filters.length; i++) {
+        this.filters[i].options = [...new Set(this.marches.map(marche => marche[this.filters[i].id]))].sort();
+      }
+    },
     convertToISODate(date) {
       return new Date(date).toISOString().slice(0, 10);
     },
@@ -328,6 +338,7 @@ export default {
       this.start_date = new Date(new Date(this.start_date).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
       this.end_date = new Date(new Date(this.end_date).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
       this.getMarches();
+      this.defineFilters();
     },
    
     filterCategory(category, item) {
@@ -341,7 +352,7 @@ export default {
           return marche.date === item;
         });
       }
-
+      this.defineFilters();
     },
   
     orderByDate() {
@@ -351,6 +362,8 @@ export default {
     },
     resetFilter() {
       this.marches = this.original_marches;
+      this.defineFilters();
+
     },
     getMarches() {
       axios.get('https://www.odwb.be/api/explore/v2.1/catalog/datasets/points-verts-de-ladeps/exports/json?lang=fr&qv1=(date%3A[' + this.start_date + '%20TO%20' + this.end_date + '])&timezone=Europe%2FBrussels')
@@ -360,10 +373,9 @@ export default {
           this.addDiffDays;
           this.addLatLong;
           this.orderByDate();
+          this.defineFilters();
           console.log(this.marches);
           this.data_loaded = true;
-          this.distinctDate;
-          this.distinctProvince;
         })
         .catch(error => {
           console.log(error);
