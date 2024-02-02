@@ -78,7 +78,7 @@ const mobileFiltersOpen = ref(false);
                   <fieldset>
                     <legend class="w-full px-2">
                       <DisclosureButton class="flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500">
-                        <span class="text-sm font-medium text-gray-900">{{ section.name }}</span>
+                        <span class="text-sm font-bold text-gray-900 uppercase">{{ section.name }}</span>
                         <span class="ml-6 flex h-7 items-center">
                           <ChevronDownIcon
                             :class="[open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform']"
@@ -97,18 +97,6 @@ const mobileFiltersOpen = ref(false);
                         >
                           {{ option }}
                         </button>
-                      </div>
-                      <div
-                        v-if="data_loaded"
-                        class="py-6"
-                      >
-                        <button
-                          class="relative flex items-center space-x-3"
-                          @click="nextMarches"
-                        >
-                          Semaine suivante
-                        </button>
-
                         <button
                           class="relative flex items-center space-x-3"
                           @click="resetFilter"
@@ -117,6 +105,27 @@ const mobileFiltersOpen = ref(false);
                         </button>
                       </div>
                     </DisclosurePanel>
+                    <div
+                      v-if="data_loaded"
+                      class="space-y-3 pt-6 px-4 pb-2 pt-4"
+                    >
+                      <div class="space-y-3 pt-6">
+                        <span class="text-sm font-bold text-gray-900 uppercase">Dates</span>
+                        du {{ start_date }} au {{ end_date }}
+                        <button
+                          class="relative flex items-center space-x-3"
+                          @click="previousMarches"
+                        >
+                          Semaine précédente
+                        </button>
+                        <button
+                          class="relative flex items-center space-x-3"
+                          @click="nextMarches"
+                        >
+                          Semaine suivante
+                        </button>
+                      </div>
+                    </div>
                   </fieldset>
                 </Disclosure>
               </DialogPanel>
@@ -140,7 +149,7 @@ const mobileFiltersOpen = ref(false);
             </h1>
           </div>
           <p class="mt-4 text-base text-gray-500">
-            Les marches ADEPS sont des marches organisées par la Fédération Wallonie-Bruxelles.
+            Les marches ADEPS sont des marches organisées du {{ start_date }} au {{ end_date }} par la Fédération Wallonie-Bruxelles pour promouvoir la pratique de la marche en tant qu'activité physique.
           </p>
   
           <div class="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
@@ -163,12 +172,57 @@ const mobileFiltersOpen = ref(false);
   
               <div class="hidden lg:block">
                 <div
+                  v-if="data_loaded"
+                  class="py-6"
+                >
+                  <legend class="block text-md font-bold text-gray-900 uppercase">
+                    <CalendarIcon class="h-6 w-6 text-blue-500" />
+                    Semaine
+                  </legend>
+                  <span class="isolate inline-flex rounded-md shadow-sm">
+                    <button
+                      type="button"
+                      class="relative inline-flex items-center rounded-l-md bg-white px-2 py-2 text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                      @click="previousMarches"
+                    >
+                      <ChevronLeftIcon
+                        class="h-5 w-5"
+                        aria-hidden="true"
+                      />
+                      précédente
+                    </button>
+                    <button
+                      type="button"
+                      class="relative -ml-px inline-flex items-center rounded-r-md bg-white px-2 py-2 text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                      @click="nextMarches"
+                    >
+                      suivante
+                      <ChevronRightIcon
+                        class="h-5 w-5"
+                        aria-hidden="true"
+                      />
+                    </button>
+                  </span>
+                  
+                  <button
+                    class="relative flex items-center space-x-3 mt-6"
+                    @click="refreshMarches()"
+                  >
+                    <ArrowPathRoundedSquareIcon
+                      class="h-6 w-6 text-blue-500"
+                      aria-hidden="true"
+                    />
+                    Rafraîchir
+                  </button>
+                </div>
+                
+                <div
                   v-for="(section, sectionIdx) in filters"
                   :key="section.name"
                   :class="sectionIdx === 0 ? null : 'pt-10'"
                 >
                   <fieldset>
-                    <legend class="block text-md font-medium text-gray-900">
+                    <legend class="block text-md font-bold text-gray-900 uppercase">
                       {{ section.name }}
                     </legend>
                     <div class="space-y-3 pt-6">
@@ -178,29 +232,10 @@ const mobileFiltersOpen = ref(false);
                         class="flex items-center"
                         @click="filterCategory(section.id, option)"
                       >
-                        {{ option }}
+                        <MapPinIcon class="h-6 w-6 text-blue-500" /> {{ option }}
                       </button>
                     </div>
                   </fieldset>
-                </div>
-
-                <div
-                  v-if="data_loaded"
-                  class="py-6"
-                >
-                  <button
-                    class="relative flex items-center space-x-3"
-                    @click="nextMarches"
-                  >
-                    Semaine suivante
-                  </button>
-
-                  <button
-                    class="relative flex items-center space-x-3"
-                    @click="resetFilter"
-                  >
-                    Voir tout
-                  </button>
                 </div>
               </div>
             </aside>
@@ -219,18 +254,20 @@ const mobileFiltersOpen = ref(false);
                     <button
                       v-if="!seeMap"
                       type="button"
-                      class="block rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                      class="relative inline-flex items-center block rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"                     
                       @click="seeMap = !seeMap"
                     >
+                      <MapPinIcon class="h-6 w-6 text-white" />
                       Voir sur une carte
                     </button>
                     <button
                       v-if="seeMap"
                       type="button"
-                      class="block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                      class="relative inline-flex items-center block block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                       @click="seeMap = !seeMap"
                     >
-                      Voir sur une liste
+                      <ListBulletIcon class="h-6 w-6 text-white" />
+                      Voir liste
                     </button>
                   </div>
                 </div>
@@ -247,7 +284,6 @@ const mobileFiltersOpen = ref(false);
                         />
                       </div>
                       <TableComponent
-                        v-if="!seeMap"
                         :marches="marches"
                       />
                     </div>
@@ -266,11 +302,16 @@ const mobileFiltersOpen = ref(false);
 import axios from 'axios';
 import MapComponent from '@/components/MapComponent.vue';
 import TableComponent from '@/components/TableComponent.vue';
-
+import { MapPinIcon, CalendarIcon, ArrowPathRoundedSquareIcon, ListBulletIcon } from '@heroicons/vue/24/outline';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid';
 export default {
   components: {
     MapComponent,
-    TableComponent
+    TableComponent,
+    MapPinIcon,
+    CalendarIcon,
+    ArrowPathRoundedSquareIcon,
+    ListBulletIcon
   },
   data() {
     return {
@@ -280,13 +321,9 @@ export default {
           id: 'province',
           name: 'Provinces',
           options: [],
-        },
-        {
-          id: 'dates',
-          name: 'Choisissez une date',
-          options: [],
-        },
+        }
       ],
+      current_date: new Date(),
       start_date: '',
       end_date: '',
       original_marches: {},
@@ -296,16 +333,6 @@ export default {
     };
   },
   computed: {
-    isActive() {
-      return this.active ? 'ON' : 'OFF';
-    },
-    distinctProvince() {
-      // order by province
-      return [...new Set(this.marches.map(marche => marche.province))].sort();
-    },
-    distinctDate() {
-      return [...new Set(this.marches.map(marche => marche.date))];
-    },
     addDiffDays() {
       return this.marches.map(marche => {
         marche.diffDays = Math.floor((new Date(marche.date) - new Date()) / (1000 * 60 * 60 * 24));
@@ -321,7 +348,6 @@ export default {
   },
   created() {
     this.start_date = this.convertToISODate(new Date());
-    // this.end_date = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
     this.end_date = this.convertToISODate(new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000));
     this.getMarches();
   },
@@ -337,6 +363,18 @@ export default {
     nextMarches() {
       this.start_date = new Date(new Date(this.start_date).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
       this.end_date = new Date(new Date(this.end_date).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+      this.getMarches();
+      this.defineFilters();
+    },
+    previousMarches() {
+      this.start_date = new Date(new Date(this.start_date).getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+      this.end_date = new Date(new Date(this.end_date).getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+      this.getMarches();
+      this.defineFilters();
+    },
+    refreshMarches() {
+      this.start_date = this.convertToISODate(new Date());
+      this.end_date = this.convertToISODate(new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000));
       this.getMarches();
       this.defineFilters();
     },
@@ -363,7 +401,6 @@ export default {
     resetFilter() {
       this.marches = this.original_marches;
       this.defineFilters();
-
     },
     getMarches() {
       axios.get('https://www.odwb.be/api/explore/v2.1/catalog/datasets/points-verts-de-ladeps/exports/json?lang=fr&qv1=(date%3A[' + this.start_date + '%20TO%20' + this.end_date + '])&timezone=Europe%2FBrussels')
@@ -374,7 +411,7 @@ export default {
           this.addLatLong;
           this.orderByDate();
           this.defineFilters();
-          console.log(this.marches);
+          // console.log(this.marches);
           this.data_loaded = true;
         })
         .catch(error => {
