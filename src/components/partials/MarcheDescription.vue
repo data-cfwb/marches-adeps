@@ -22,7 +22,7 @@
           <li><strong>Gare:</strong> {{ marche.gare }}</li>
           <li><strong>Infos Rendez-vous:</strong> {{ marche.infos_rendez_vous }}</li>
           <li><strong>Lieu de Rendez-vous:</strong> {{ marche.lieu_de_rendez_vous }}</li>
-          <li><strong>Date:</strong> {{ marche.date }} — dans {{ marche.diffDays }} jours</li>
+          <li><strong>Date:</strong> {{ marche.frenchDate }} — dans {{ marche.diffDays }} jours</li>
           <li><strong>Latitude:</strong> {{ marche.latLong[0] }}</li>
           <li><strong>Longitude:</strong> {{ marche.latLong[1] }}</li>
         </ul>

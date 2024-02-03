@@ -333,15 +333,31 @@ export default {
     };
   },
   computed: {
-    addDiffDays() {
+    addProperties() {
       return this.marches.map(marche => {
-        marche.diffDays = Math.floor((new Date(marche.date) - new Date()) / (1000 * 60 * 60 * 24));
-        return marche;
-      });
-    },
-    addLatLong() {
-      return this.marches.map(marche => {
+        marche.diffDays = Math.floor((new Date(marche.date) - new Date()) / (1000 * 60 * 60 * 24)) + 1;
+        marche.isPast = marche.diffDays < 0;
+        // revert negative days to 0
+        marche.frenchDate = new Date(marche.date).toLocaleDateString('fr-BE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        marche.frenchDayOfWeek = new Date(marche.date).toLocaleDateString('fr-BE', { weekday: 'long' });     
         marche.latLong = [parseFloat(marche.latitude), parseFloat(marche.longitude)];
+        // for each marche.pmr, marche.poussettes, marche.balade_guidee, marche.vtt, marche.velo, marche.ravitaillement, marche.adeps_sante create a services object with labels and values
+        marche.services = [];
+        marche.services.push({ label: '5km', value: 'Oui' });
+        marche.services.push({ label: '10km', value: marche['10km'] });
+        marche.services.push({ label: '15km', value: marche['15km'] });
+        marche.services.push({ label: '20km', value: 'Oui' });
+
+        marche.services.push({ label: 'pmr', value: marche['pmr'] });
+        marche.services.push({ label: 'poussettes', value: marche['poussettes'] });
+        marche.services.push({ label: 'orientation', value: marche['orientation'] });
+        marche.services.push({ label: 'balade_guidee', value: marche['balade_guidee'] });
+        marche.services.push({ label: 'vtt', value: marche['vtt'] });
+        marche.services.push({ label: 'ravitaillement', value: marche['ravitaillement'] });
+        marche.services.push({ label: 'bewapp', value: marche['bewapp'] });
+        marche.services.push({ label: 'adep_sante', value: marche['adep_sante'] });
+
+        
         return marche;
       });
     },
@@ -407,8 +423,7 @@ export default {
         .then(response => {
           this.original_marches = response.data;
           this.marches = response.data;
-          this.addDiffDays;
-          this.addLatLong;
+          this.addProperties;
           this.orderByDate();
           this.defineFilters();
           // console.log(this.marches);
