@@ -73,7 +73,7 @@
           />
 
    
-          <li><strong>Entité:</strong> {{ marche.entite }}</li>
+          <!-- <li><strong>Entité:</strong> {{ marche.entite }}</li>
           <li><strong>Groupement:</strong> </li>
           <li>
             <strong>Nom:</strong> {{ marche.prenom }} {{ marche.nom }} ({{ marche.groupement }})
@@ -86,7 +86,7 @@
           <li><strong>Gare:</strong> {{ marche.gare }}</li>
           <li><strong>Infos Rendez-vous:</strong> {{ marche.infos_rendez_vous }}</li>
           <li><strong>Lieu de Rendez-vous:</strong> {{ marche.lieu_de_rendez_vous }}</li>
-          
+           -->
           <a
             :href="'https://www.google.be/maps/dir/?api=1&destination=' + marche.latLong[0] + ',' + marche.latLong[1]"
             target="_blank"
@@ -100,12 +100,12 @@
           <div
             class="mt-1 flex items-center gap-x-1.5"
           >
-            <div class="flex-none rounded-full bg-emerald-500/20 p-1">
+            <!-- <div class="flex-none rounded-full bg-emerald-500/20 p-1">
               <div class="h-1.5 w-1.5 rounded-full bg-emerald-500" />
             </div>
             <p class="text-xs leading-5 text-gray-500">
               Online
-            </p>
+            </p> -->
           </div>
         </div>
         <ChevronRightIcon

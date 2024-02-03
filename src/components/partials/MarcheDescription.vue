@@ -88,7 +88,7 @@ DTSTART:${this.marche.icsStartDate}
 DTEND:${this.marche.icsEndDate}
 SUMMARY: Marche Adeps de ${this.marche.localite} (${this.marche.province})
 DESCRIPTION:${this.marche.infos_rendez_vous}
-LOCATION:${this.marche.lieu_de_rendez_vous}
+LOCATION:${this.marche.lieu_de_rendez_vous}, ${this.marche.localite}, Belgique
 END:VEVENT
 END:VCALENDAR`;
 
@@ -96,7 +96,7 @@ END:VCALENDAR`;
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${this.marche.id}.ics`;
+      a.download = `${this.marche.id}-${this.ndeg_pv}.ics`;
       a.click();
       window.URL.revokeObjectURL(url);
     },
