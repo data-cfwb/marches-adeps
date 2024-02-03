@@ -9,16 +9,7 @@
         <ul>
           <li><strong>Entité:</strong> {{ marche.entite }}</li>
           <li><strong>Groupement:</strong> {{ marche.groupement }}</li>
-          <li><strong>PMR:</strong> {{ marche.pmr }}</li>
-          <li><strong>Poussettes:</strong> {{ marche.poussettes }}</li>
-          <li><strong>Balade Guidée:</strong> {{ marche.balade_guidee }}</li>
-          <li><strong>BEWAPP:</strong> {{ marche.bewapp }}</li>
-          <li><strong>Vélo:</strong> {{ marche.velo }}</li>
-          <li><strong>VTT:</strong> {{ marche.vtt }}</li>
-          <li><strong>Ravitaillement:</strong> {{ marche.ravitaillement }}</li>
-          <li><strong>Prénom:</strong> {{ marche.prenom }}</li>
-          <li><strong>Nom:</strong> {{ marche.nom }}</li>
-          <li><strong>Adeps Santé:</strong> {{ marche.adeps_sante }}</li>
+          <li><strong>Nom:</strong> {{ marche.prenom }} {{ marche.nom }}</li>
           <li><strong>Gare:</strong> {{ marche.gare }}</li>
           <li><strong>Infos Rendez-vous:</strong> {{ marche.infos_rendez_vous }}</li>
           <li><strong>Lieu de Rendez-vous:</strong> {{ marche.lieu_de_rendez_vous }}</li>

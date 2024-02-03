@@ -336,18 +336,23 @@ export default {
     addProperties() {
       return this.marches.map(marche => {
         marche.diffDays = Math.floor((new Date(marche.date) - new Date()) / (1000 * 60 * 60 * 24)) + 1;
+        // custom function to get the difference between marche.date and today
+        marche.diffFromTodayInFrench = this.getDiffFromTodayInFrench(marche.diffDays);
+
         marche.isPast = marche.diffDays < 0;
         // revert negative days to 0
         marche.frenchDate = new Date(marche.date).toLocaleDateString('fr-BE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         marche.frenchDayOfWeek = new Date(marche.date).toLocaleDateString('fr-BE', { weekday: 'long' });     
         marche.latLong = [parseFloat(marche.latitude), parseFloat(marche.longitude)];
-        // for each marche.pmr, marche.poussettes, marche.balade_guidee, marche.vtt, marche.velo, marche.ravitaillement, marche.adeps_sante create a services object with labels and values
-        marche.services = [];
-        marche.services.push({ label: '5km', value: 'Oui' });
-        marche.services.push({ label: '10km', value: marche['10km'] });
-        marche.services.push({ label: '15km', value: marche['15km'] });
-        marche.services.push({ label: '20km', value: 'Oui' });
+        marche.parcours = [];
+        // data is not consistent with real parcours, so we manually add the parcours
+        marche.parcours.push({ label: '5km', value: 'Oui' });
+        marche.parcours.push({ label: '10km', value: 'Oui' });
+        marche.parcours.push({ label: '15km', value: marche['15km'] });
+        marche.parcours.push({ label: '20km', value: 'Oui' });
 
+        marche.services = [];
+  
         marche.services.push({ label: 'pmr', value: marche['pmr'] });
         marche.services.push({ label: 'poussettes', value: marche['poussettes'] });
         marche.services.push({ label: 'orientation', value: marche['orientation'] });
@@ -356,8 +361,12 @@ export default {
         marche.services.push({ label: 'ravitaillement', value: marche['ravitaillement'] });
         marche.services.push({ label: 'bewapp', value: marche['bewapp'] });
         marche.services.push({ label: 'adep_sante', value: marche['adep_sante'] });
+        for (let i = marche.services.length - 1; i >= 0; i--) {
+          if (marche.services[i].value === 'Non') {
+            marche.services.splice(i, 1);
+          }
+        }
 
-        
         return marche;
       });
     },
@@ -375,6 +384,23 @@ export default {
     },
     convertToISODate(date) {
       return new Date(date).toISOString().slice(0, 10);
+    },
+    getDiffFromTodayInFrench(diffDays) {
+      if (diffDays === 0) {
+        return 'aujourd\'hui';
+      }
+      else if (diffDays === 1) {
+        return 'demain';
+      }
+      else if (diffDays === -1) {
+        return 'hier';
+      }
+      else if (diffDays > 1) {
+        return 'dans ' + diffDays + ' jours';
+      }
+      else if (diffDays < -1) {
+        return 'il y a ' + Math.abs(diffDays) + ' jours';
+      }
     },
     nextMarches() {
       this.start_date = new Date(new Date(this.start_date).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);

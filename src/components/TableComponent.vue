@@ -20,52 +20,46 @@
               <span
                 class="absolute inset-x-0 -top-px bottom-0"
               />
-              dd
             </a>
+            <span
+              v-if="marche.statut != 'OK'"
+              class="items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20 bg-orange-100 text-orange-700"
+            >{{ marche.statut }}
+            </span>
             {{ marche.province }},  {{ marche.entite }}<br>
-            {{ marche.groupement }}
           </p>
           <p class="mt-1 flex text-xs leading-5 text-gray-500">
             <a
               :href="`mailto:${marche.email}`"
               class="relative truncate hover:underline"
-            >{{ marche.localite }}, {{ marche.entite }}</a>
+            >{{ marche.localite }}, {{ marche.entite }} {{ marche.groupement }}</a>
           </p>
-          <!-- {{ marche }} -->
-
-          {{ marche.services }}
           <span
-            v-for="key in [marche.pmr, marche.poussettes, marche.balade_guidee, marche.vtt, marche.velo, marche.ravitaillement, marche.adeps_sante]"
-            :key="key"
+            v-for="prc in marche.parcours"
+            :key="prc"
             class="items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
-            :class="key === true ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'"
+            :class="prc.value === 'Oui' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'"
           >
-            {{ key }}
+            {{ prc.label }}
+          </span>
+          <br>
+          <span
+            v-for="service in marche.services"
+            :key="service"
+            class="items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20"
+            :class="service.value === 'Oui' ? 'bg-blue-100 text-blue-700' : 'bg-orange-100 text-orange-700'"
+          >
+            {{ service.label }}
           </span>
         </div>
       </div>
       <div class="flex shrink-0 items-center gap-x-4">
         <div class="hidden sm:flex sm:flex-col sm:items-end">
           <p
-            v-if="marche.diffDays === 0"
             class="text-sm leading-6 text-gray-900"
           >
-            {{ marche.frenchDate }} aujourd'hui
+            {{ marche.diffFromTodayInFrench }}
           </p>
-          <p
-            v-if="!marche.isPast"
-            class="mt-1 text-xs leading-5 text-gray-500"
-          >
-            {{ marche.frenchDate }} -- dans <time :datetime="marche.diffDays">{{ marche.diffDays }} jour(s)</time>
-          </p>
-
-          <p
-            v-if="marche.isPast"
-            class="mt-1 text-xs leading-5 text-gray-500"
-          >
-            {{ marche.frenchDate }} -- il y a <time :datetime="marche.diffDays">{{ marche.diffDays }} jour(s)</time>
-          </p>
-
           
           <a
             href="#"
