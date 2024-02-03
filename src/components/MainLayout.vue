@@ -366,6 +366,9 @@ export default {
             marche.services.splice(i, 1);
           }
         }
+        // 20240118T070000
+        marche.icsStartDate = new Date(marche.date).toISOString().slice(0, 10).replace(/-/g, '') + 'T070000';
+        marche.icsEndDate = new Date(marche.date).toISOString().slice(0, 10).replace(/-/g, '') + 'T160000';
 
         return marche;
       });

@@ -38,7 +38,16 @@
         </a>
       </dd>
     </dl>
-
+    <button
+      class="text-indigo-600 hover:text-indigo-900"
+      @click="downloadIcs"
+    >
+      <CalendarIcon
+        class="h-6 w-6 text-green-600"
+        aria-hidden="true"
+      />
+      <span class="sr-only">Télécharger le calendrier, {{ marche.name }}</span>
+    </button>
 
     <a
       :href="'https://www.google.be/maps/dir/?api=1&destination=' + marche.latLong[0] + ',' + marche.latLong[1]"
@@ -49,22 +58,49 @@
         class="h-6 w-6 text-green-600"
         aria-hidden="true"
       />
-      <span class="sr-only">Carte vers, {{ marche.name }}</span></a>
+      <span class="sr-only">Carte vers, {{ marche.name }}</span>
+    </a>
   </div>
 </template>
 
 <script>
-import { MapIcon } from '@heroicons/vue/24/outline';
+import { MapIcon, CalendarIcon } from '@heroicons/vue/24/outline';
 
 export default {
   components: {
     MapIcon,
+    CalendarIcon,
   },
   props: {
     marche: {
       type: Object,
       required: true,
     },
+  },
+  methods: {
+    downloadIcs() {
+      const ics = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+BEGIN:VEVENT
+UID:${this.marche.id}
+DTSTART:${this.marche.icsStartDate}
+DTEND:${this.marche.icsEndDate}
+SUMMARY:${this.marche.nom}
+DESCRIPTION:${this.marche.infos_rendez_vous}
+LOCATION:${this.marche.lieu_de_rendez_vous}
+END:VEVENT
+END:VCALENDAR`;
+
+      const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${this.marche.id}.ics`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    },
+
   },
 };
 </script>
