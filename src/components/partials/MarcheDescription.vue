@@ -81,12 +81,12 @@ export default {
     downloadIcs() {
       const ics = `BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+PRODID:-//CFWB//Marches-Adeps//FR
 BEGIN:VEVENT
 UID:${this.marche.id}
 DTSTART:${this.marche.icsStartDate}
 DTEND:${this.marche.icsEndDate}
-SUMMARY:${this.marche.nom}
+SUMMARY: Marche Adeps de ${this.marche.localite} (${this.marche.province})
 DESCRIPTION:${this.marche.infos_rendez_vous}
 LOCATION:${this.marche.lieu_de_rendez_vous}
 END:VEVENT
