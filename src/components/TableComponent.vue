@@ -32,7 +32,7 @@
             <a
               :href="`mailto:${marche.email}`"
               class="relative truncate hover:underline"
-            >{{ marche.localite }}, {{ marche.entite }} {{ marche.groupement }}</a>
+            >{{ marche.localite }}, {{ marche.entite }}</a>
           </p>
           <span
             v-for="prc in marche.parcours"
@@ -60,19 +60,7 @@
           >
             {{ marche.diffFromTodayInFrench }}
           </p>
-          
-          <a
-            href="#"
-            class="text-indigo-600 hover:text-indigo-900"
-            @click="marche.seeDetails = !marche.seeDetails"
-          >Voir les détails<span class="sr-only">de {{ marche.name }}</span></a>
-          <DetailsComponent
-            v-if="marche.seeDetails"
-            class="absolute inset-0"
-            :marche="marche"
-          />
-
-   
+        
           <!-- <li><strong>Entité:</strong> {{ marche.entite }}</li>
           <li><strong>Groupement:</strong> </li>
           <li>
@@ -108,9 +96,18 @@
             </p> -->
           </div>
         </div>
-        <ChevronRightIcon
+        <a
+          href="#"
+          class="text-indigo-600 hover:text-indigo-900"
+          @click="marche.seeDetails = !marche.seeDetails"
+        ><ChevronRightIcon
           class="h-5 w-5 flex-none text-gray-400"
           aria-hidden="true"
+        /><span class="sr-only">Détails de {{ marche.name }}</span></a>
+        <DetailsComponent
+          v-if="marche.seeDetails"
+          class="absolute inset-0"
+          :marche="marche"
         />
       </div>
     </li>

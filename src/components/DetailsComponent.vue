@@ -48,7 +48,7 @@ const open = ref(true);
                     aria-hidden="true"
                   />
                 </div>
-                <div class="mt-3 sm:mt-5">
+                <div class="mt-2 sm:mt-4">
                   <DialogTitle
                     as="h3"
                     class="text-base font-semibold leading-6 text-gray-900"
