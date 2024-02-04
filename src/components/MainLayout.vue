@@ -353,14 +353,14 @@ export default {
 
         marche.services = [];
   
-        marche.services.push({ label: 'pmr', value: marche['pmr'] });
-        marche.services.push({ label: 'poussettes', value: marche['poussettes'] });
-        marche.services.push({ label: 'orientation', value: marche['orientation'] });
-        marche.services.push({ label: 'balade_guidee', value: marche['balade_guidee'] });
-        marche.services.push({ label: 'vtt', value: marche['vtt'] });
-        marche.services.push({ label: 'ravitaillement', value: marche['ravitaillement'] });
-        marche.services.push({ label: 'bewapp', value: marche['bewapp'] });
-        marche.services.push({ label: 'adep_sante', value: marche['adep_sante'] });
+        marche.services.push({ label: 'PMR 🧑‍🦽', value: marche['pmr'] });
+        marche.services.push({ label: 'Poussettes 🍼', value: marche['poussettes'] });
+        marche.services.push({ label: 'Orientation 🧭', value: marche['orientation'] });
+        marche.services.push({ label: 'Balade guidée', value: marche['balade_guidee'] });
+        marche.services.push({ label: 'VTT 🚵', value: marche['vtt'] });
+        marche.services.push({ label: 'Ravitaillement 🧃', value: marche['ravitaillement'] });
+        marche.services.push({ label: 'BeWapp ♻️', value: marche['bewapp'] });
+        marche.services.push({ label: 'Adep Santé 🏃', value: marche['adep_sante'] });
         for (let i = marche.services.length - 1; i >= 0; i--) {
           if (marche.services[i].value === 'Non') {
             marche.services.splice(i, 1);
