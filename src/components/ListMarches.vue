@@ -77,30 +77,20 @@
             class="mt-1 flex items-center gap-x-1.5"
           />
         </div>
-        <a
-          href="#"
-          class="text-indigo-600 hover:text-indigo-900"
-          @click="marche.seeDetails = !marche.seeDetails"
+       
         ><ChevronRightIcon
           class="h-5 w-5 flex-none text-gray-400"
           aria-hidden="true"
-        /><span class="sr-only">Détails de {{ marche.name }}</span></a>
-        <DetailsComponent
-          v-if="marche.seeDetails"
-          class="absolute inset-0"
-          :marche="marche"
-        />
+        /><span class="sr-only">Détails de {{ marche.name }}</span>
       </div>
     </li>
   </ul>
 </template>
   
 <script>
-import DetailsComponent from '@/components/DetailsComponent.vue';
 import { ChevronRightIcon } from '@heroicons/vue/20/solid';
 export default {
   components: {
-    DetailsComponent,
     ChevronRightIcon,
   },
   props: {
