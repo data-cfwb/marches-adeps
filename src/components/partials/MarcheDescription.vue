@@ -1,17 +1,17 @@
 <template>
-  <div>
-    <div class="mt-8 border-t border-gray-200 pt-8 bg-blue-50">
-      <h2 class="text-sm font-medium text-gray-900">
-        Marche {{ marche.entite }} à {{ marche.localite }} ({{ marche.province }})
+  <div class="bg-blue-50 p-5">
+    <div class="mt-3 border-t border-gray-200 pt-4">
+      <h2 class="text-medium font-medium text-gray-900">
+        Marche de {{ marche.entite }} à {{ marche.localite }} ({{ marche.province }})
       </h2>
 
       <div class="prose prose-sm mt-4 text-gray-500">
         <ul>
-          <li><strong>Date:</strong> {{ marche.frenchDate }}</li>
+          <li><strong>Date:</strong> {{ marche.frenchDate }} ({{ marche.diffFromTodayInFrench }})</li>
 
           <li><strong>Organisateur:</strong> {{ marche.groupement }}</li>
           <li>
-            <strong>Contact:</strong> {{ marche.prenom }} {{ marche.nom }} <a
+            <strong>Contact:</strong> {{ marche.fullName }} <a
               :href="'tel:' + marche.gsm"
               class="text-indigo-600 hover:text-indigo-900
         "

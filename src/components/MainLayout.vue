@@ -371,6 +371,8 @@ export default {
         marche.icsStartDate = new Date(marche.date).toISOString().slice(0, 10).replace(/-/g, '') + 'T080000';
         marche.icsEndDate = new Date(marche.date).toISOString().slice(0, 10).replace(/-/g, '') + 'T160000';
 
+        marche.fullName = marche.prenom + ' ' + marche.nom;
+
         return marche;
       });
     },

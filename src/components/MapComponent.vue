@@ -10,6 +10,7 @@
       layer-type="base"
       name="OpenStreetMap"
       credit="OpenStreetMap"
+      attribution="© Contributors"
     />
     <div
       v-for="marche in marches"
