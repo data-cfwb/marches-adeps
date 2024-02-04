@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mt-8 border-t border-gray-200 pt-8">
+    <div class="mt-8 border-t border-gray-200 pt-8 bg-blue-50">
       <h2 class="text-sm font-medium text-gray-900">
         Marche {{ marche.entite }} à {{ marche.localite }} ({{ marche.province }})
       </h2>
@@ -54,17 +54,8 @@
           aria-hidden="true"
         />
       </button>
+
       <a
-        :href="'https://www.google.be/maps/dir/?api=1&destination=' + marche.latLong[0] + ',' + marche.latLong[1]"
-        target="_blank"
-        class="text-indigo-600 hover:text-indigo-900"
-      >
-        <MapIcon
-          class="h-6 w-6 text-green-600"
-          aria-hidden="true"
-        />
-        <span class="sr-only">Carte vers, {{ marche.name }}</span></a>
-      <button
         type="button"
         class="relative -ml-px inline-flex items-center rounded-r-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
         :href="'https://www.google.be/maps/dir/?api=1&destination=' + marche.latLong[0] + ',' + marche.latLong[1]"
@@ -73,7 +64,7 @@
         <MapIcon
           class="h-6 w-6 text-green-600"
           aria-hidden="true"
-        /></button>
+        /></a>
     </span>
   </div>
 </template>
