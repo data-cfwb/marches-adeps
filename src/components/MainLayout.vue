@@ -283,7 +283,7 @@ const mobileFiltersOpen = ref(false);
                           class="z-0"
                         />
                       </div>
-                      <TableComponent
+                      <ListMarches
                         :marches="marches"
                       />
                     </div>
@@ -301,13 +301,13 @@ const mobileFiltersOpen = ref(false);
 <script>
 import axios from 'axios';
 import MapComponent from '@/components/MapComponent.vue';
-import TableComponent from '@/components/TableComponent.vue';
+import ListMarches from '@/components/ListMarches.vue';
 import { MapPinIcon, CalendarIcon, ArrowPathRoundedSquareIcon, ListBulletIcon } from '@heroicons/vue/24/outline';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid';
 export default {
   components: {
     MapComponent,
-    TableComponent,
+    ListMarches,
     MapPinIcon,
     CalendarIcon,
     ArrowPathRoundedSquareIcon,
@@ -376,8 +376,8 @@ export default {
     },
   },
   created() {
-    this.start_date = this.convertToISODate(new Date());
-    this.end_date = this.convertToISODate(new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000));
+    this.start_date = this.diffDateIso(new Date(), 0);
+    this.end_date = this.diffDateIso(this.start_date, 6);
     this.getMarches();
   },
   methods: {
@@ -386,18 +386,15 @@ export default {
         this.filters[i].options = [...new Set(this.marches.map(marche => marche[this.filters[i].id]))].sort();
       }
     },
-    convertToISODate(date) {
-      return new Date(date).toISOString().slice(0, 10);
-    },
     getDiffFromTodayInFrench(diffDays) {
       if (diffDays === 0) {
-        return 'aujourd\'hui';
+        return 'Aujourd\'hui';
       }
       else if (diffDays === 1) {
-        return 'demain';
+        return 'Demain';
       }
       else if (diffDays === -1) {
-        return 'hier';
+        return 'Hier';
       }
       else if (diffDays > 1) {
         return 'dans ' + diffDays + ' jours';
@@ -406,21 +403,24 @@ export default {
         return 'il y a ' + Math.abs(diffDays) + ' jours';
       }
     },
+    diffDateIso(date, diffInDays) {
+      return new Date(new Date(date).getTime() + diffInDays * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+    },
     nextMarches() {
-      this.start_date = new Date(new Date(this.start_date).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
-      this.end_date = new Date(new Date(this.end_date).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+      this.start_date = this.diffDateIso(this.start_date, 7);
+      this.end_date = this.diffDateIso(this.end_date, 7);
       this.getMarches();
       this.defineFilters();
     },
     previousMarches() {
-      this.start_date = new Date(new Date(this.start_date).getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
-      this.end_date = new Date(new Date(this.end_date).getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+      this.start_date = this.diffDateIso(this.start_date, -7);
+      this.end_date = this.diffDateIso(this.end_date, -7);
       this.getMarches();
       this.defineFilters();
     },
     refreshMarches() {
-      this.start_date = this.convertToISODate(new Date());
-      this.end_date = this.convertToISODate(new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000));
+      this.start_date = this.diffDateIso(this.start_date, 0);
+      this.end_date = this.diffDateIso(this.start_date, 7);
       this.getMarches();
       this.defineFilters();
     },
@@ -439,9 +439,12 @@ export default {
       this.defineFilters();
     },
   
-    orderByDate() {
+    orderByDateAndProvince() {
       this.marches.sort((a, b) => {
         return new Date(a.date) - new Date(b.date);
+      });
+      this.marches.sort((a, b) => {
+        return a.province.localeCompare(b.province);
       });
     },
     resetFilter() {
@@ -454,7 +457,7 @@ export default {
           this.original_marches = response.data;
           this.marches = response.data;
           this.addProperties;
-          this.orderByDate();
+          this.orderByDateAndProvince();
           this.defineFilters();
           // console.log(this.marches);
           this.data_loaded = true;

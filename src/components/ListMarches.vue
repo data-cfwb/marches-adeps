@@ -75,16 +75,7 @@
           <li><strong>Infos Rendez-vous:</strong> {{ marche.infos_rendez_vous }}</li>
           <li><strong>Lieu de Rendez-vous:</strong> {{ marche.lieu_de_rendez_vous }}</li>
            -->
-          <a
-            :href="'https://www.google.be/maps/dir/?api=1&destination=' + marche.latLong[0] + ',' + marche.latLong[1]"
-            target="_blank"
-            class="text-indigo-600 hover:text-indigo-900"
-          >
-            <MapIcon
-              class="h-6 w-6 text-green-600"
-              aria-hidden="true"
-            />
-            <span class="sr-only">Carte vers, {{ marche.name }}</span></a>
+         
           <div
             class="mt-1 flex items-center gap-x-1.5"
           >
@@ -116,12 +107,10 @@
   
 <script>
 import DetailsComponent from '@/components/DetailsComponent.vue';
-import { MapIcon } from '@heroicons/vue/24/outline';
 import { ChevronRightIcon } from '@heroicons/vue/20/solid';
 export default {
   components: {
     DetailsComponent,
-    MapIcon,
     ChevronRightIcon,
   },
   props: {
@@ -130,7 +119,5 @@ export default {
       required: true,
     },
   },
-   
-  
 };
 </script>

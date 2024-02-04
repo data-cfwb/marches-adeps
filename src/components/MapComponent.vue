@@ -2,7 +2,7 @@
   <l-map
     ref="map"
     :zoom="zoom"
-    :center="[50.2000, 4.8000]"
+    :center="center"
   >
     <l-tile-layer
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -14,22 +14,27 @@
       v-for="marche in marches"
       :key="marche"
     >
-      <l-marker :lat-lng="marche.latLong">
+      <l-marker
+        :lat-lng="marche.latLong"
+        @click="openDetails(marche)"
+      >
         <l-tooltip>
           {{ marche.localite }}<br>
           {{ marche.entite }}
         </l-tooltip>
-        <l-popup>
-          <MarcheDescription :marche="marche" />
-        </l-popup>
       </l-marker>
     </div>
   </l-map>
+
+  <MarcheDescription
+    v-if="selected_map"
+    :marche="selected_map"
+  />
 </template>
 
 <script>
 import 'leaflet/dist/leaflet.css';
-import { LMap, LTileLayer, LMarker, LTooltip, LPopup } from '@vue-leaflet/vue-leaflet';
+import { LMap, LTileLayer, LMarker, LTooltip } from '@vue-leaflet/vue-leaflet';
 import MarcheDescription from '@/components/partials/MarcheDescription.vue';
 
 export default {
@@ -38,7 +43,6 @@ export default {
     LTileLayer,
     LMarker,
     LTooltip,
-    LPopup,
     MarcheDescription
   },
   props: {
@@ -50,8 +54,15 @@ export default {
   data() {
     return {
       zoom: 8,
-
+      center: [50.8503, 4.3517],
+      selected_map: null,
     };
+  },
+  methods: {
+    openDetails(marche) {
+      this.selected_map = marche;
+      this.center = marche.latLong;
+    },
   },
 
 };
