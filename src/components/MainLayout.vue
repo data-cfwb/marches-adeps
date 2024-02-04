@@ -164,7 +164,7 @@ const mobileFiltersOpen = ref(false);
                 class="inline-flex items-center lg:hidden"
                 @click="mobileFiltersOpen = true"
               >
-                <span class="text-sm font-medium text-gray-700 uppercase">Filters</span>
+                <span class="text-sm font-medium text-gray-700 uppercase">Filtres</span>
                 <PlusIcon
                   class="ml-1 h-5 w-5 flex-shrink-0 text-gray-400"
                   aria-hidden="true"
