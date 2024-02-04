@@ -368,7 +368,7 @@ export default {
         }
         marche.address = marche.lieu_de_rendez_vous + ', ' + marche.localite + ', ' + marche.province;
         // 20240118T070000
-        marche.icsStartDate = new Date(marche.date).toISOString().slice(0, 10).replace(/-/g, '') + 'T070000';
+        marche.icsStartDate = new Date(marche.date).toISOString().slice(0, 10).replace(/-/g, '') + 'T080000';
         marche.icsEndDate = new Date(marche.date).toISOString().slice(0, 10).replace(/-/g, '') + 'T160000';
 
         return marche;

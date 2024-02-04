@@ -78,14 +78,7 @@
          
           <div
             class="mt-1 flex items-center gap-x-1.5"
-          >
-            <!-- <div class="flex-none rounded-full bg-emerald-500/20 p-1">
-              <div class="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            </div>
-            <p class="text-xs leading-5 text-gray-500">
-              Online
-            </p> -->
-          </div>
+          />
         </div>
         <a
           href="#"
