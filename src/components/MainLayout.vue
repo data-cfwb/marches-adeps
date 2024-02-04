@@ -134,7 +134,7 @@ const mobileFiltersOpen = ref(false);
         </Dialog>
       </TransitionRoot>
   
-      <main class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+      <main class="mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         <div class="border-b border-gray-200 pb-10">
           <!-- logo -->
           <div class="flex items-center justify-center">
@@ -142,13 +142,14 @@ const mobileFiltersOpen = ref(false);
               src="https://raw.githubusercontent.com/data-cfwb/charte-graphique/main/pastilles_PNG_et_SVG_24px/pastille_Adeps24.svg"
               alt="Fédération Wallonie-Bruxelles"
               width="48"
-              class="px-1 sm:px-2"
+              class="px-1 sm:px-1"
             >
             <h1 class="text-4xl font-bold tracking-tight text-gray-900">
               Les marches ADEPS
             </h1>
           </div>
-          <p class="mt-4 text-base text-gray-500">
+          <!-- hide on small -->
+          <p class="mt-4 text-base text-gray-500 max-md:hidden">
             Les marches ADEPS sont des marches organisées du {{ start_date }} au {{ end_date }} par la Fédération Wallonie-Bruxelles pour promouvoir la pratique de la marche en tant qu'activité physique.
           </p>
   

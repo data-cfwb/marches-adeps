@@ -6,30 +6,20 @@
     <li
       v-for="marche in marches"
       :key="marche.id"
-      class="relative flex justify-between gap-x-6 py-2"
+      class="relative flex justify-between gap-x-6 py-2 hover:bg-gray-100"
     >
       <div class="flex min-w-0 gap-x-4">
         <div class="min-w-0 flex-auto">
           <p class="text-sm font-semibold leading-6 text-gray-900">
-            <a
-              :href="'https://www.google.be/maps/dir/?api=1&destination=' + marche.latLong[0] + ',' + marche.latLong[1]"
-              target="_blank"
-              class="relative truncate hover:underline"
-            >
-
-              <span
-                class="absolute inset-x-0 -top-px bottom-0"
-              />
-            </a>
+            {{ marche.entite }} à {{ marche.localite }} ({{ marche.province }})
             <span
               v-if="marche.statut != 'OK'"
               class="items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20 bg-orange-100 text-orange-700"
             >{{ marche.statut }}
             </span>
-            Marche {{ marche.entite }} à {{ marche.localite }} ({{ marche.province }})
           </p>
           <p class="mt-1 flex text-xs leading-5 text-gray-500 truncate">
-            {{ marche.localite }}, {{ marche.entite }}
+            {{ marche.diffFromTodayInFrench }} - {{ marche.frenchDate }}
           </p>
           <span
             v-for="prc in marche.parcours"
@@ -53,26 +43,12 @@
       <div class="flex shrink-0 items-center gap-x-4">
         <div class="hidden sm:flex sm:flex-col sm:items-end">
           <p
-            class="text-sm leading-6 text-gray-900"
+            class="text-sm leading-6 text-gray-400"
           >
-            {{ marche.diffFromTodayInFrench }}
+            par {{ marche.groupement }}
           </p>
         
-          <!-- <li><strong>Entité:</strong> {{ marche.entite }}</li>
-          <li><strong>Groupement:</strong> </li>
-          <li>
-            <strong>Nom:</strong> {{ marche.prenom }} {{ marche.nom }} ({{ marche.groupement }})
-            <a
-              :href="`tel:${marche.gsm}`"
-              class="text-indigo-600 hover:text-indigo-900"
-            >{{ marche.gsm }}</a>
-          </li>
-          <li><strong>Carte IGN</strong> {{ marche.ign }}</li>
-          <li><strong>Gare:</strong> {{ marche.gare }}</li>
-          <li><strong>Infos Rendez-vous:</strong> {{ marche.infos_rendez_vous }}</li>
-          <li><strong>Lieu de Rendez-vous:</strong> {{ marche.lieu_de_rendez_vous }}</li>
-           -->
-         
+    
           <div
             class="mt-1 flex items-center gap-x-1.5"
           />
