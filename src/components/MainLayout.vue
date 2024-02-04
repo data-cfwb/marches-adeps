@@ -164,7 +164,7 @@ const mobileFiltersOpen = ref(false);
                 class="inline-flex items-center lg:hidden"
                 @click="mobileFiltersOpen = true"
               >
-                <span class="text-sm font-medium text-gray-700">Filters</span>
+                <span class="text-sm font-medium text-gray-700 uppercase">Filters</span>
                 <PlusIcon
                   class="ml-1 h-5 w-5 flex-shrink-0 text-gray-400"
                   aria-hidden="true"
@@ -357,11 +357,11 @@ export default {
         marche.services.push({ label: 'PMR 🧑‍🦽', value: marche['pmr'] });
         marche.services.push({ label: 'Poussettes 🍼', value: marche['poussettes'] });
         marche.services.push({ label: 'Orientation 🧭', value: marche['orientation'] });
-        marche.services.push({ label: 'Balade guidée', value: marche['balade_guidee'] });
+        marche.services.push({ label: 'Balade guidée 🧑‍🌾', value: marche['balade_guidee'] });
         marche.services.push({ label: 'VTT 🚵', value: marche['vtt'] });
         marche.services.push({ label: 'Ravitaillement 🧃', value: marche['ravitaillement'] });
         marche.services.push({ label: 'BeWapp ♻️', value: marche['bewapp'] });
-        marche.services.push({ label: 'Adep Santé 🏃', value: marche['adep_sante'] });
+        marche.services.push({ label: 'Adeps Santé 🏃', value: marche['adep_sante'] });
         for (let i = marche.services.length - 1; i >= 0; i--) {
           if (marche.services[i].value === 'Non') {
             marche.services.splice(i, 1);
@@ -423,7 +423,7 @@ export default {
     },
     refreshMarches() {
       this.start_date = this.diffDateIso(this.start_date, 0);
-      this.end_date = this.diffDateIso(this.start_date, 7);
+      this.end_date = this.diffDateIso(this.start_date, 6);
       this.getMarches();
       this.defineFilters();
     },
