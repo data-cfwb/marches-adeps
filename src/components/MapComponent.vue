@@ -35,7 +35,7 @@
             v-if="marche.statut != 'OK'"
             class="text-red-900"
           >{{ marche.statut }}</span>
-          <span class="text-gray-500 uppercase">[{{ marche.province }}]</span> 
+          <span class="text-blue-900 font-semibold uppercase">{{ marche.province }}</span> 
           <br>
           {{ marche.frenchDate }}
           <br>

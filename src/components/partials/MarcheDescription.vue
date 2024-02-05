@@ -9,10 +9,10 @@
         <span
           v-if="marche.statut != 'OK'"
           class="text-red-900"
-        >{{ marche.statut }}</span> {{ marche.province }} {{ marche.localite }} ({{ marche.entite }}) du {{ marche.frenchDate }}
+        >{{ marche.statut }}</span> Marche ADEPS de {{ marche.localite }} ({{ marche.entite }}) 
       </h3>
       <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-        Description de la marche ADEPS de {{ marche.localite }} ({{ marche.entite }})
+        Le {{ marche.frenchDate }} ({{ marche.diffFromTodayInFrench }})
       </p>
     </div>
     <div class="border-t border-gray-100">
@@ -37,9 +37,10 @@
               {{ marche.statut }}
             </div>
             <div v-else>
-              {{ marche.frenchDate }} ({{ marche.diffFromTodayInFrench }}) <button
+              {{ marche.frenchDate }} ({{ marche.diffFromTodayInFrench }}) <br>
+              <button
                 type="button"
-                class="text-indigo-600 hover:text-indigo-900"
+                class="text-indigo-600 hover:text-indigo-900 focus:outline-none focus:underline transition duration-150 ease-in-out"
                 @click="downloadIcs"
               >
                 Télécharger le calendrier
@@ -86,10 +87,9 @@
           </dt>
       
           <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-            {{ marche.fullName }} <a
+            {{ marche.fullName }} <br><a
               :href="'tel:' + marche.gsm"
-              class="text-indigo-600 hover:text-indigo-900
-        "
+              class="text-indigo-600 hover:text-indigo-900 focus:outline-none focus:underline transition duration-150 ease-in-out"
             >
               {{ marche.gsm }}
             </a>
@@ -117,7 +117,7 @@
             Informations complémentaires
           </dt>
           <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-            {{ marche.lieu_de_rendez_vous }} — {{ marche.infos_rendez_vous }}
+            {{ marche.lieu_de_rendez_vous }} <br> {{ marche.infos_rendez_vous }}
           </dd>
         </div>
         <div class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -135,32 +135,32 @@
           </dd>
         </div>
       </dl>
+      <div class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+        <button
+          type="button"
+          class="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+          @click="downloadIcs"
+        >
+          <CalendarIcon
+            class="h-6 w-6 text-green-600"
+            aria-hidden="true"
+          />
+          Télécharger le calendrier
+        </button>
+
+        <button
+          type="button"
+          class="relative -ml-px inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+          :href="'https://www.google.be/maps/dir/?api=1&destination=' + marche.latLong[0] + ',' + marche.latLong[1]"
+          target="_blank"
+        >
+          <MapIcon
+            class="h-6 w-6 text-green-600"
+            aria-hidden="true"
+          /> Voir sur une carte
+        </button>
+      </div>
     </div>
-
-
-    
-    <button
-      type="button"
-      class="relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-      @click="downloadIcs"
-    >
-      <CalendarIcon
-        class="h-6 w-6 text-green-600"
-        aria-hidden="true"
-      />
-      Télécharger le calendrier
-    </button>
-
-    <a
-      type="button"
-      class="relative -ml-px inline-flex items-center rounded-r-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-      :href="'https://www.google.be/maps/dir/?api=1&destination=' + marche.latLong[0] + ',' + marche.latLong[1]"
-      target="_blank"
-    ><MapIcon
-      class="h-6 w-6 text-green-600"
-      aria-hidden="true"
-    /> Voir sur une carte
-    </a>
   </div>
 </template>
 
