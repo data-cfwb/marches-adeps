@@ -22,7 +22,6 @@
     >
       <l-marker
         :lat-lng="marche.latLong"
-        :class="current_marche === marche ? 'bg-green-500' : 'bg-red-500'"
         @click="openDetails(marche)"
       >
         <l-tooltip>
@@ -88,7 +87,7 @@ export default {
   methods: {
     openDetails(marche) {
       this.current_marche = marche;
-      this.center = marche.latLong;
+      this.center = this.current_marche.latLong;
     },
   },
 

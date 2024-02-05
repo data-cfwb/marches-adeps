@@ -432,19 +432,16 @@ export default {
       this.start_date = this.diffDateIso(this.start_date, 7);
       this.end_date = this.diffDateIso(this.end_date, 7);
       this.getMarches();
-      this.defineFilters();
     },
     previousMarches() {
       this.start_date = this.diffDateIso(this.start_date, -7);
       this.end_date = this.diffDateIso(this.end_date, -7);
       this.getMarches();
-      this.defineFilters();
     },
     refreshMarches() {
       this.start_date = this.diffDateIso(this.start_date, 0);
       this.end_date = this.diffDateIso(this.start_date, 6);
       this.getMarches();
-      this.defineFilters();
     },
    
     filterCategory(category, item) {
@@ -478,6 +475,7 @@ export default {
       this.defineFilters();
     },
     getMarches() {
+      this.data_loaded = false;
       axios.get('https://www.odwb.be/api/explore/v2.1/catalog/datasets/points-verts-de-ladeps/exports/json?lang=fr&qv1=(date%3A[' + this.start_date + '%20TO%20' + this.end_date + '])&timezone=Europe%2FBrussels')
         .then(response => {
           this.original_marches = response.data;

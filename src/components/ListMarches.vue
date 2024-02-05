@@ -24,23 +24,9 @@
           <p class="mt-1 flex text-xs leading-5 text-gray-500 truncate">
             {{ marche.diffFromTodayInFrench }} - {{ marche.frenchDate }}
           </p>
-          <span
-            v-for="prc in marche.parcours"
-            :key="prc"
-            class="items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
-            :class="prc.value === 'Oui' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'"
-          >
-            {{ prc.label }}
-          </span>
+          <ParcoursComponent :parcours="marche.parcours" />
           <br>
-          <span
-            v-for="service in marche.services"
-            :key="service"
-            class="items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20"
-            :class="service.value === 'Oui' ? 'bg-blue-100 text-blue-700' : 'bg-orange-100 text-orange-700'"
-          >
-            {{ service.label }}
-          </span>
+          <ServicesComponent :services="marche.services" />
         </div>
       </div>
       <div class="flex shrink-0 items-center gap-x-4">
@@ -68,9 +54,14 @@
   
 <script>
 import { ChevronRightIcon } from '@heroicons/vue/20/solid';
+import ServicesComponent from './partials/ServicesComponent.vue';
+import ParcoursComponent from './partials/ParcoursComponent.vue';
+
 export default {
   components: {
     ChevronRightIcon,
+    ServicesComponent,
+    ParcoursComponent
   },
   props: {
     marches: {
