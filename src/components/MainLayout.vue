@@ -110,20 +110,33 @@ const mobileFiltersOpen = ref(false);
                       class="space-y-3 pt-6 px-4 pb-2 pt-4"
                     >
                       <div class="space-y-3 pt-6">
-                        <span class="text-sm font-bold text-gray-900 uppercase">Dates</span>
-                        du {{ start_date }} au {{ end_date }}
-                        <button
-                          class="relative flex items-center space-x-3"
-                          @click="previousMarches"
-                        >
-                          Semaine précédente
-                        </button>
-                        <button
-                          class="relative flex items-center space-x-3"
-                          @click="nextMarches"
-                        >
-                          Semaine suivante
-                        </button>
+                        {{ marches.length }} marches
+                        du {{ toFrenchDate(start_date) }} au {{ toFrenchDate(end_date) }}
+
+                        <span class="isolate inline-flex rounded-md shadow-sm">
+                          <button
+                            type="button"
+                            class="relative inline-flex items-center rounded-l-md bg-white px-2 py-2 text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                            @click="previousMarches"
+                          >
+                            <ChevronLeftIcon
+                              class="h-5 w-5"
+                              aria-hidden="true"
+                            />
+                            précédente
+                          </button>
+                          <button
+                            type="button"
+                            class="relative -ml-px inline-flex items-center rounded-r-md bg-white px-2 py-2 text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                            @click="nextMarches"
+                          >
+                            suivante
+                            <ChevronRightIcon
+                              class="h-5 w-5"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </span>
                       </div>
                     </div>
                   </fieldset>

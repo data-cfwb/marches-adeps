@@ -79,7 +79,7 @@ export default {
     };
   },
   mounted() {
-    if (this.selectedMarche) {
+    if (this.selectedMarche.id) {
       this.current_marche = this.selectedMarche;
       this.center = this.selectedMarche.latLong;
     }
