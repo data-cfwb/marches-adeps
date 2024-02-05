@@ -281,10 +281,13 @@ const mobileFiltersOpen = ref(false);
                       >
                         <MapComponent
                           :marches="marches"
+                          :selected-marche="selected_marche"
                         />
                       </div>
                       <ListMarches
+                        v-if="!seeMap"
                         :marches="marches"
+                        @selected-marche="selectMarche"
                       />
                     </div>
                   </div>
@@ -326,6 +329,7 @@ export default {
       current_date: new Date(),
       start_date: '',
       end_date: '',
+      selected_marche: {},
       original_marches: {},
       marches: {},
       data_loaded: false,
@@ -387,6 +391,12 @@ export default {
     this.getMarches();
   },
   methods: {
+    selectMarche(marche) {
+      // show map with selected marche
+      this.seeMap = true;
+      this.selected_marche = marche;
+      console.log(marche);
+    },
     toFrenchDate(date) {
       return new Date(date).toLocaleDateString('fr-BE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     },
@@ -451,12 +461,16 @@ export default {
       this.defineFilters();
     },
   
-    orderByDateAndProvince() {
+    orderByStatusDateAndProvince() {
       this.marches.sort((a, b) => {
         return new Date(a.date) - new Date(b.date);
       });
       this.marches.sort((a, b) => {
         return a.province.localeCompare(b.province);
+      });
+      // if status is not OK, put it at the end
+      this.marches.sort((a) => {
+        return a.statut === 'OK' ? -1 : 1;
       });
     },
     resetFilter() {
@@ -469,7 +483,7 @@ export default {
           this.original_marches = response.data;
           this.marches = response.data;
           this.addProperties;
-          this.orderByDateAndProvince();
+          this.orderByStatusDateAndProvince();
           this.defineFilters();
           // console.log(this.marches);
           this.data_loaded = true;

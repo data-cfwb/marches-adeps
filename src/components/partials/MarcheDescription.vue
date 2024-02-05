@@ -1,7 +1,14 @@
 <template>
-  <div class="bg-blue-50 p-5">
+  <div
+    class="p-5"
+    :class="marche.statut != 'OK' ? 'bg-orange-100' : 'bg-blue-50'"
+  >
     <div class="mt-3 border-t border-gray-200 pt-4">
       <h3 class="text-medium font-medium text-gray-600">
+        <span
+          v-if="marche.statut != 'OK'"
+          class="text-red-900"
+        >{{ marche.statut }}</span>
         [{{ marche.province }}]
       </h3>
       <h2 class="text-medium font-medium text-gray-900">
@@ -9,8 +16,13 @@
       </h2>
 
       <div class="prose prose-sm mt-4 text-gray-500">
-        <ul>
-          <li><strong>Date:</strong> {{ marche.frenchDate }} ({{ marche.diffFromTodayInFrench }})</li>
+        <ul class="py-2">
+          <li>
+            <strong>Date:</strong> {{ marche.frenchDate }} ({{ marche.diffFromTodayInFrench }}) <span
+              v-if="marche.statut != 'OK'"
+              class="text-red-900"
+            >{{ marche.statut }}</span>
+          </li>
 
           <li><strong>Organisateur:</strong> {{ marche.groupement }}</li>
           <li>
@@ -22,7 +34,6 @@
               {{ marche.gsm }}
             </a>
           </li>
-          <li><strong>Gare:</strong> {{ marche.gare }}</li>
           <li>
             <strong>Adresse: </strong> 
             <a
@@ -30,8 +41,10 @@
               target="_blank"
               class="text-indigo-600 hover:text-indigo-900"
             >
-              {{ marche.address }}>{{ marche.address }}</a>
+              {{ marche.address }}</a>
           </li>
+          <li><strong>Gare:</strong> {{ marche.gare }}</li>
+
           <li><strong>Infos:</strong> {{ marche.infos_rendez_vous }}</li>
         </ul>
       </div>

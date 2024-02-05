@@ -13,8 +13,8 @@
       name="OpenStreetMap"
     />
     <l-control-attribution
-      position="topright"
-      prefix="A custom prefix"
+      position="bottomleft"
+      prefix="OSM"
     />
     <div
       v-for="marche in marches"
@@ -22,10 +22,14 @@
     >
       <l-marker
         :lat-lng="marche.latLong"
-        :class="selected_marche === marche ? 'bg-green-500' : 'bg-red-500'"
+        :class="current_marche === marche ? 'bg-green-500' : 'bg-red-500'"
         @click="openDetails(marche)"
       >
         <l-tooltip>
+          <span
+            v-if="marche.statut != 'OK'"
+            class="text-red-900"
+          >{{ marche.statut }}</span>
           <span class="text-gray-500 uppercase">[{{ marche.province }}]</span> 
           <br>
           {{ marche.frenchDate }}
@@ -38,8 +42,8 @@
   </l-map>
 
   <MarcheDescription
-    v-if="selected_marche"
-    :marche="selected_marche"
+    v-if="current_marche"
+    :marche="current_marche"
   />
 </template>
 
@@ -62,7 +66,7 @@ export default {
       type: Object,
       required: true,
     },
-    marcheFromList: {
+    selectedMarche: {
       type: Object,
       required: false,
       default: null,
@@ -71,19 +75,19 @@ export default {
   data() {
     return {
       zoom: 8,
-      center: [50.8503, 4.3517],
-      selected_marche: null,
+      center: [50.3503, 4.8517],
+      current_marche: null,
     };
   },
   mounted() {
-    if (this.marcheFromList) {
-      this.selected_marche = this.marcheFromList;
-      this.center = this.marcheFromList.latLong;
+    if (this.selectedMarche) {
+      this.current_marche = this.selectedMarche;
+      this.center = this.selectedMarche.latLong;
     }
   },
   methods: {
     openDetails(marche) {
-      this.selected_marche = marche;
+      this.current_marche = marche;
       this.center = marche.latLong;
     },
   },

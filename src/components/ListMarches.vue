@@ -8,7 +8,7 @@
       :key="marche.id"
       class="relative flex justify-between gap-x-6 py-2 hover:bg-gray-100"
       :class="marche.statut === 'OK' ? 'bg-white' : 'bg-orange-100'"
-      @click="console.log('hello')"
+      @click="emitSelectedMarche(marche)"
     >
       <div class="flex min-w-0 gap-x-4">
         <div class="min-w-0 flex-auto">
@@ -76,6 +76,12 @@ export default {
     marches: {
       type: Object,
       required: true,
+    },
+  },
+  emits: ['selectedMarche'],
+  methods: {
+    emitSelectedMarche(marche) {
+      this.$emit('selectedMarche', marche);
     },
   },
 };
