@@ -41,7 +41,7 @@
   </l-map>
 
   <MarcheDescription
-    v-if="current_marche"
+    v-if="current_marche.id"
     :marche="current_marche"
   />
 </template>
@@ -75,7 +75,7 @@ export default {
     return {
       zoom: 8,
       center: [50.3503, 4.8517],
-      current_marche: null,
+      current_marche: {},
     };
   },
   mounted() {

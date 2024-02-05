@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="marche"
     class="p-5"
     :class="marche.statut != 'OK' ? 'bg-orange-100' : 'bg-blue-50'"
   >
@@ -16,6 +17,9 @@
       </h2>
 
       <div class="prose prose-sm mt-4 text-gray-500">
+        <ParcoursComponent :parcours="marche.parcours" />
+        <br>
+        <ServicesComponent :services="marche.services" />
         <ul class="py-2">
           <li>
             <strong>Date:</strong> {{ marche.frenchDate }} ({{ marche.diffFromTodayInFrench }}) <span
@@ -87,16 +91,21 @@
 
 <script>
 import { MapIcon, CalendarIcon } from '@heroicons/vue/24/outline';
+import ServicesComponent from './ServicesComponent.vue';
+import ParcoursComponent from './ParcoursComponent.vue';
 
 export default {
   components: {
     MapIcon,
     CalendarIcon,
+    ServicesComponent,
+    ParcoursComponent,
   },
   props: {
     marche: {
       type: Object,
       required: true,
+      default: null,
     },
   },
   methods: {

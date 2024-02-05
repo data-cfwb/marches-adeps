@@ -348,6 +348,7 @@ export default {
         marche.frenchDate = this.toFrenchDate(marche.date);
         marche.frenchDayOfWeek = new Date(marche.date).toLocaleDateString('fr-BE', { weekday: 'long' });     
         marche.latLong = [parseFloat(marche.latitude), parseFloat(marche.longitude)];
+        
         marche.parcours = [];
         // data is not consistent with real parcours, so we manually add the parcours
         marche.parcours.push({ label: '5km', value: 'Oui' });

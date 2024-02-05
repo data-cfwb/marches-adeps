@@ -54,8 +54,8 @@
   
 <script>
 import { ChevronRightIcon } from '@heroicons/vue/20/solid';
-import ServicesComponent from './partials/ServicesComponent.vue';
-import ParcoursComponent from './partials/ParcoursComponent.vue';
+import ServicesComponent from '@/components/partials/ServicesComponent.vue';
+import ParcoursComponent from '@/components/partials/ParcoursComponent.vue';
 
 export default {
   components: {
