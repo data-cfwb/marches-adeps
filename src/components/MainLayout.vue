@@ -95,7 +95,7 @@ const mobileFiltersOpen = ref(false);
                           class="flex items-center"
                           @click="filterCategory(section.id, option)"
                         >
-                          {{ option }}
+                          {{ option }} <span class="text-gray-500">({{ getCountCategory(section.id, option) }})</span>
                         </button>
                         <button
                           class="relative flex items-center space-x-3"
@@ -150,7 +150,7 @@ const mobileFiltersOpen = ref(false);
           </div>
           <!-- hide on small -->
           <p class="mt-4 text-base text-gray-500 max-md:hidden">
-            Les marches ADEPS sont des marches organisées du {{ start_date }} au {{ end_date }} par la Fédération Wallonie-Bruxelles pour promouvoir la pratique de la marche en tant qu'activité physique.
+            Les marches ADEPS sont des marches organisées du <span class="font-semibold">{{ toFrenchDate(start_date) }}</span> au <span class="font-semibold">{{ toFrenchDate(end_date) }}</span> par la Fédération Wallonie-Bruxelles pour promouvoir la pratique de la marche en tant qu'activité physique.
           </p>
   
           <div class="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
@@ -233,7 +233,7 @@ const mobileFiltersOpen = ref(false);
                         class="flex items-center"
                         @click="filterCategory(section.id, option)"
                       >
-                        <MapPinIcon class="h-6 w-6 text-blue-500" /> {{ option }}
+                        <MapPinIcon class="h-6 w-6 text-blue-500" /> {{ option }} <span class="text-gray-500">({{ getCountCategory(section.id, option) }})</span>
                       </button>
                     </div>
                   </fieldset>
@@ -268,7 +268,7 @@ const mobileFiltersOpen = ref(false);
                       @click="seeMap = !seeMap"
                     >
                       <ListBulletIcon class="h-6 w-6 text-white" />
-                      Voir liste
+                      Liste des marches
                     </button>
                   </div>
                 </div>
@@ -281,7 +281,6 @@ const mobileFiltersOpen = ref(false);
                       >
                         <MapComponent
                           :marches="marches"
-                          class="z-0"
                         />
                       </div>
                       <ListMarches
@@ -342,7 +341,7 @@ export default {
 
         marche.isPast = marche.diffDays < 0;
         // revert negative days to 0
-        marche.frenchDate = new Date(marche.date).toLocaleDateString('fr-BE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        marche.frenchDate = this.toFrenchDate(marche.date);
         marche.frenchDayOfWeek = new Date(marche.date).toLocaleDateString('fr-BE', { weekday: 'long' });     
         marche.latLong = [parseFloat(marche.latitude), parseFloat(marche.longitude)];
         marche.parcours = [];
@@ -367,6 +366,10 @@ export default {
             marche.services.splice(i, 1);
           }
         }
+        // trim marche.localite and marche.entite
+        marche.localite = marche.localite.replace(/\n/g, ' ').trim();
+        marche.entite = marche.entite.replace(/\n/g, ' ').trim();
+
         marche.address = marche.lieu_de_rendez_vous + ', ' + marche.localite + ', ' + marche.province;
         // 20240118T070000
         marche.icsStartDate = new Date(marche.date).toISOString().slice(0, 10).replace(/-/g, '') + 'T080000';
@@ -384,6 +387,12 @@ export default {
     this.getMarches();
   },
   methods: {
+    toFrenchDate(date) {
+      return new Date(date).toLocaleDateString('fr-BE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    },
+    getCountCategory(category, item) {
+      return this.marches.filter(marche => marche[category] === item).length;
+    },
     defineFilters() {
       for (let i = 0; i < this.filters.length; i++) {
         this.filters[i].options = [...new Set(this.marches.map(marche => marche[this.filters[i].id]))].sort();

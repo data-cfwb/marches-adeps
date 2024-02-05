@@ -7,11 +7,14 @@
       v-for="marche in marches"
       :key="marche.id"
       class="relative flex justify-between gap-x-6 py-2 hover:bg-gray-100"
+      :class="marche.statut === 'OK' ? 'bg-white' : 'bg-orange-100'"
+      @click="console.log('hello')"
     >
       <div class="flex min-w-0 gap-x-4">
         <div class="min-w-0 flex-auto">
           <p class="text-sm font-semibold leading-6 text-gray-900">
-            {{ marche.entite }} à {{ marche.localite }} ({{ marche.province }})
+            <span class="text-gray-500 uppercase">[{{ marche.province }}]</span> —
+            {{ marche.localite }} ({{ marche.entite }})
             <span
               v-if="marche.statut != 'OK'"
               class="items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20 bg-orange-100 text-orange-700"

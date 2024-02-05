@@ -2,6 +2,7 @@
   <l-map
     ref="map"
     style="height: 300px"
+    class="z-30"
     :zoom="zoom"
     :center="center"
     :options="{attributionControl: false}"
@@ -21,11 +22,16 @@
     >
       <l-marker
         :lat-lng="marche.latLong"
+        :class="selected_marche === marche ? 'bg-green-500' : 'bg-red-500'"
         @click="openDetails(marche)"
       >
         <l-tooltip>
-          {{ marche.localite }}<br>
-          {{ marche.entite }}
+          <span class="text-gray-500 uppercase">[{{ marche.province }}]</span> 
+          <br>
+          {{ marche.frenchDate }}
+          <br>
+          {{ marche.localite }} ({{ marche.entite }})
+          <br>
         </l-tooltip>
       </l-marker>
     </div>
