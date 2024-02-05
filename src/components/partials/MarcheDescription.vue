@@ -1,10 +1,10 @@
 <template>
   <div
     v-if="marche"
-    class="p-5"
-    :class="marche.statut != 'OK' ? 'bg-orange-100' : 'bg-white'"
+    class="overflow-hidden shadow sm:rounded-lg"
+    :class="marche.statut != 'OK' ? 'bg-orange-100' : 'bg-blue-50'"
   >
-    <div class="px-4 sm:px-0">
+    <div class="px-4 py-2 sm:px-6">
       <h3 class="text-base font-semibold leading-7 text-gray-900">
         <span
           v-if="marche.statut != 'OK'"
@@ -15,15 +15,17 @@
         Description de la marche ADEPS de {{ marche.localite }} ({{ marche.entite }})
       </p>
     </div>
-    <div class="mt-6 border-t border-gray-100">
+    <div class="border-t border-gray-100">
       <dl class="divide-y divide-gray-100">
-        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <div class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium leading-6 text-gray-900">
             Où
           </dt>
           <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
             {{ marche.province }} {{ marche.localite }} ({{ marche.entite }})
           </dd>
+        </div>
+        <div class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium leading-6 text-gray-900">
             Quand
           </dt>
@@ -44,6 +46,8 @@
               </button>
             </div>
           </dd>
+        </div>
+        <div class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt class="text-sm font-medium leading-6 text-gray-900">
             Parcours
           </dt>
@@ -56,12 +60,15 @@
           >
             Services
           </dt>
+      
           <dd
             v-if="marche.services.length > 0"
             class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
           >
             <ServicesComponent :services="marche.services" />
           </dd>
+        </div>
+        <div class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt
             class="text-sm font-medium leading-6 text-gray-900"
           >
@@ -70,11 +77,14 @@
           <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
             {{ marche.groupement }}
           </dd>
+        </div>
+        <div class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt
             class="text-sm font-medium leading-6 text-gray-900"
           >
             Contact
           </dt>
+      
           <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
             {{ marche.fullName }} <a
               :href="'tel:' + marche.gsm"
@@ -84,6 +94,8 @@
               {{ marche.gsm }}
             </a>
           </dd>
+        </div>
+        <div class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt
             class="text-sm font-medium leading-6 text-gray-900"
           >
@@ -97,16 +109,18 @@
             >
               {{ marche.address }}</a>
           </dd>
+        </div>
+        <div class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt
             class="text-sm font-medium leading-6 text-gray-900"
           >
             Informations complémentaires
           </dt>
           <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-            {{ marche.infos_rendez_vous }}<br>
-            {{ marche.lieu_de_rendez_vous }}
+            {{ marche.lieu_de_rendez_vous }} — {{ marche.infos_rendez_vous }}
           </dd>
-          
+        </div>
+        <div class="px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
           <dt
             v-if="marche.gare"
             class="text-sm font-medium leading-6 text-gray-900"

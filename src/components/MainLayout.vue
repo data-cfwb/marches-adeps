@@ -243,7 +243,7 @@ const mobileFiltersOpen = ref(false);
                       <button
                         v-for="option in section.options"
                         :key="option"
-                        class="flex items-center"
+                        class="flex items-center hover:text-blue-900"
                         @click="filterCategory(section.id, option)"
                       >
                         <MapPinIcon class="h-6 w-6 text-blue-500" /> {{ option }} <span class="text-gray-500">({{ getCountCategory(section.id, option) }})</span>

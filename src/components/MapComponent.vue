@@ -16,6 +16,12 @@
       position="bottomleft"
       prefix="OSM"
     />
+    <l-circle-marker
+      v-if="current_marche.id"
+      :lat-lng="current_marche.latLong"
+      :radius="current_marche.statut === 'OK' ? 10 : 20"
+      :color="current_marche.statut === 'OK' ? '#4063e7' : 'red'"
+    />
     <div
       v-for="marche in marches"
       :key="marche"
@@ -48,7 +54,7 @@
 
 <script>
 import 'leaflet/dist/leaflet.css';
-import { LMap, LTileLayer, LMarker, LTooltip, LControlAttribution} from '@vue-leaflet/vue-leaflet';
+import { LMap, LTileLayer, LMarker, LTooltip, LControlAttribution, LCircleMarker} from '@vue-leaflet/vue-leaflet';
 import MarcheDescription from '@/components/partials/MarcheDescription.vue';
 
 export default {
@@ -59,6 +65,7 @@ export default {
     LTooltip,
     LControlAttribution,
     MarcheDescription,
+    LCircleMarker
   },
   props: {
     marches: {
