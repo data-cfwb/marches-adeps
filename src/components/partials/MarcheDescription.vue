@@ -98,12 +98,13 @@
               {{ marche.address }}</a>
           </dd>
           <dt
-            class="text-sm font-medium leading-6 text-gray-900 text-right"
+            class="text-sm font-medium leading-6 text-gray-900"
           >
-            Information complémentaire
+            Informations complémentaires
           </dt>
           <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-            {{ marche.infos_rendez_vous }} {{ marche.lieu_de_rendez_vous }}
+            {{ marche.infos_rendez_vous }}<br>
+            {{ marche.lieu_de_rendez_vous }}
           </dd>
           
           <dt
