@@ -311,12 +311,14 @@ const mobileFiltersOpen = ref(false);
         </div>
       </main>
     </div>
+    <FooterModule />
   </div>
 </template>
   
 <script>
 import axios from 'axios';
 import MapComponent from '@/components/MapComponent.vue';
+import FooterModule from '@/components/partials/FooterModule.vue';
 import ListMarches from '@/components/ListMarches.vue';
 import { MapPinIcon, CalendarIcon, ArrowPathRoundedSquareIcon, ListBulletIcon } from '@heroicons/vue/24/outline';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/20/solid';
@@ -327,7 +329,8 @@ export default {
     MapPinIcon,
     CalendarIcon,
     ArrowPathRoundedSquareIcon,
-    ListBulletIcon
+    ListBulletIcon,
+    FooterModule
   },
   data() {
     return {
