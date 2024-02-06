@@ -148,7 +148,7 @@
           Télécharger le calendrier
         </button>
 
-        <button
+        <a
           type="button"
           class="relative -ml-px inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
           :href="'https://www.google.be/maps/dir/?api=1&destination=' + marche.latLong[0] + ',' + marche.latLong[1]"
@@ -158,7 +158,7 @@
             class="h-6 w-6 text-green-600"
             aria-hidden="true"
           /> Voir sur une carte
-        </button>
+        </a>
       </div>
     </div>
   </div>
