@@ -13,7 +13,6 @@
       <div class="flex min-w-0 gap-x-4">
         <div class="min-w-0 flex-auto">
           <p class="text-sm font-semibold leading-6 text-gray-900">
-            <span class="text-gray-500 uppercase">[{{ marche.province }}]</span> —
             {{ marche.localite }} ({{ marche.entite }})
             <span
               v-if="marche.statut != 'OK'"
@@ -32,7 +31,7 @@
       <div class="flex shrink-0 items-center gap-x-4">
         <div class="hidden sm:flex sm:flex-col sm:items-end">
           <p
-            class="text-sm leading-6 text-gray-400"
+            class="text-sm leading-6 text-gray-400 text-wrap"
           >
             par {{ marche.groupement }}
           </p>

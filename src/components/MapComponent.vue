@@ -31,15 +31,17 @@
         @click="openDetails(marche)"
       >
         <l-tooltip>
+          <span class="text-blue-900 font-semibold uppercase">{{ marche.localite }} ({{ marche.entite }})</span> 
+          <br>
           <span
             v-if="marche.statut != 'OK'"
             class="text-red-900"
           >{{ marche.statut }}</span>
-          <span class="text-blue-900 font-semibold uppercase">{{ marche.province }}</span> 
+          <span v-else>
+            {{ marche.frenchDate }} - {{ marche.diffFromTodayInFrench }}
+          </span>
           <br>
-          {{ marche.frenchDate }}
-          <br>
-          {{ marche.localite }} ({{ marche.entite }})
+          {{ marche.province }}
           <br>
         </l-tooltip>
       </l-marker>
