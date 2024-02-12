@@ -3,14 +3,11 @@ import { ref } from 'vue';
 import {
   Dialog,
   DialogPanel,
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
-import { ChevronDownIcon, PlusIcon } from '@heroicons/vue/20/solid';
+import { PlusIcon } from '@heroicons/vue/20/solid';
 
 const mobileFiltersOpen = ref(false);
 </script>
@@ -51,7 +48,7 @@ const mobileFiltersOpen = ref(false);
             >
               <DialogPanel class="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-6 shadow-xl">
                 <div class="flex items-center justify-between px-4">
-                  <h2 class="text-lg font-medium text-gray-900">
+                  <h2 class="text-lg font-bold text-gray-500 uppercase">
                     Filtres
                   </h2>
                   <button
@@ -68,79 +65,80 @@ const mobileFiltersOpen = ref(false);
                 </div>
   
                 <!-- Filters -->
-                <Disclosure
+                <div
                   v-for="section in filters"
                   :key="section.name"
-                  v-slot="{ open }"
                   as="div"
                   class="border-t border-gray-200 pb-4 pt-4"
                 >
                   <fieldset>
                     <legend class="w-full px-2">
-                      <DisclosureButton class="flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500">
+                      <div class="flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500">
                         <span class="text-sm font-bold text-gray-900 uppercase">{{ section.name }}</span>
-                        <span class="ml-6 flex h-7 items-center">
-                          <ChevronDownIcon
-                            :class="[open ? '-rotate-180' : 'rotate-0', 'h-5 w-5 transform']"
-                            aria-hidden="true"
-                          />
-                        </span>
-                      </DisclosureButton>
-                    </legend>
-                    <DisclosurePanel class="px-4 pb-2 pt-4">
-                      <div class="space-y-3 pt-6">
-                        <button
-                          v-for="option in section.options"
-                          :key="option"
-                          class="flex items-center"
-                          @click="filterCategory(section.id, option)"
-                        >
-                          {{ option }} <span class="text-gray-500">({{ getCountCategory(section.id, option) }})</span>
-                        </button>
-                        <button
-                          class="relative flex items-center space-x-3"
-                          @click="resetFilter"
-                        >
-                          Voir tout
-                        </button>
                       </div>
-                    </DisclosurePanel>
+                    </legend>
                     <div
                       v-if="data_loaded"
-                      class="space-y-3 pt-6 px-4 pb-2 pt-4"
                     >
-                      <div class="space-y-3 pt-6">
+                      <div class="px-4 pb-2 pt-4">
+                        <div class="space-y-3">
+                          <button
+                            v-for="option in section.options"
+                            :key="option"
+                            class="flex items-center"
+                            @click="filterCategory(section.id, option)"
+                          >
+                            {{ option }} <span class="text-gray-500">({{ getCountCategory(section.id, option) }})</span>
+                          </button>
+                          <button
+                            v-if="isProvinceFiltered"
+                            class="rounded-full bg-blue-600 px-2.5 py-1 text-xs font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                            @click="resetFilter"
+                          >
+                            Retirer filtre
+                          </button>
+                        </div>
+                      </div>
+                  
+                      <legend class="w-full px-2">
+                        <div class="flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500">
+                          <span class="text-sm font-bold text-gray-900 uppercase">Quand</span>
+                        </div>
+                      </legend>
+                      <div class="space-y-3 pt-4 px-4 pb-2">
                         {{ marches.length }} marches
                         du {{ toFrenchDate(start_date) }} au {{ toFrenchDate(end_date) }}
 
-                        <span class="isolate inline-flex rounded-md shadow-sm">
-                          <button
-                            type="button"
-                            class="relative inline-flex items-center rounded-l-md bg-white px-2 py-2 text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                            @click="previousMarches"
-                          >
-                            <ChevronLeftIcon
-                              class="h-5 w-5"
-                              aria-hidden="true"
-                            />
-                            précédente
-                          </button>
-                          <button
-                            type="button"
-                            class="relative -ml-px inline-flex items-center rounded-r-md bg-white px-2 py-2 text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
-                            @click="nextMarches"
-                          >
-                            suivante
-                            <ChevronRightIcon
-                              class="h-5 w-5"
-                              aria-hidden="true"
-                            />
-                          </button>
-                        </span>
+                        <div class="pt-4">
+                          <span class="isolate inline-flex rounded-md shadow-sm">
+                            <button
+                              type="button"
+                              class="relative inline-flex items-center rounded-l-md bg-white px-2 py-2 text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                              @click="previousMarches"
+                            >
+                              <ChevronLeftIcon
+                                class="h-5 w-5"
+                                aria-hidden="true"
+                              />
+                              précédente
+                            </button>
+                            <button
+                              type="button"
+                              class="relative -ml-px inline-flex items-center rounded-r-md bg-white px-2 py-2 text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                              @click="nextMarches"
+                            >
+                              suivante
+                              <ChevronRightIcon
+                                class="h-5 w-5"
+                                aria-hidden="true"
+                              />
+                            </button>
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </fieldset>
-                </Disclosure>
+                </div>
               </DialogPanel>
             </TransitionChild>
           </div>
@@ -186,7 +184,6 @@ const mobileFiltersOpen = ref(false);
   
               <div class="hidden lg:block">
                 <div
-                  v-if="data_loaded"
                   class="py-6"
                 >
                   <legend class="block text-md font-bold text-gray-900 uppercase">
@@ -206,6 +203,17 @@ const mobileFiltersOpen = ref(false);
                       précédente
                     </button>
                     <button
+                      class="relative -ml-px inline-flex items-center bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+                      alt="Cette semaine"
+                      @click="refreshMarches()"
+                    >
+                      <ArrowPathRoundedSquareIcon
+                        class="h-6 w-6 text-blue-500"
+                        aria-hidden="true"
+                      />
+                    
+                    </button>
+                    <button
                       type="button"
                       class="relative -ml-px inline-flex items-center rounded-r-md bg-white px-2 py-2 text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
                       @click="nextMarches"
@@ -217,17 +225,6 @@ const mobileFiltersOpen = ref(false);
                       />
                     </button>
                   </span>
-                  
-                  <button
-                    class="relative flex items-center space-x-3 mt-6"
-                    @click="refreshMarches()"
-                  >
-                    <ArrowPathRoundedSquareIcon
-                      class="h-6 w-6 text-blue-500"
-                      aria-hidden="true"
-                    />
-                    Rafraîchir
-                  </button>
                 </div>
                 
                 <div
@@ -248,6 +245,13 @@ const mobileFiltersOpen = ref(false);
                       >
                         <MapPinIcon class="h-6 w-6 text-blue-500" /> {{ option }} <span class="text-gray-500">({{ getCountCategory(section.id, option) }})</span>
                       </button>
+                      <button
+                        v-if="isProvinceFiltered"
+                        class="rounded-full bg-blue-600 px-2.5 py-1 text-xs font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                        @click="resetFilter"
+                      >
+                        Retirer filtre
+                      </button>
                     </div>
                   </fieldset>
                 </div>
@@ -259,52 +263,53 @@ const mobileFiltersOpen = ref(false);
               <!-- Your content -->
               <div>
                 <LoadingFwb v-if="!data_loaded" />
-                <div v-else />
-              </div>
-              <div class="px-4 sm:px-6 lg:px-8">
-                <div class="sm:flex sm:items-center">
-                  <div class="sm:flex-auto" />
-                  <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                    <button
-                      v-if="!seeMap"
-                      type="button"
-                      class="relative inline-flex items-center block rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"                     
-                      @click="seeMap = !seeMap"
-                    >
-                      <MapPinIcon class="h-6 w-6 text-white" />
-                      Voir sur une carte
-                    </button>
-                    <button
-                      v-if="seeMap"
-                      type="button"
-                      class="relative inline-flex items-center block block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                      @click="seeMap = !seeMap"
-                    >
-                      <ListBulletIcon class="h-6 w-6 text-white" />
-                      Liste des marches
-                    </button>
-                  </div>
-                </div>
-                <div class="mt-8 flow-root">
-                  <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                      <div
-                        v-if="seeMap" 
-                        class="overflow-hidden border-t border-gray-200 sm:rounded-lg"
-                      >
-                        <MapComponent
-                          :marches="marches"
-                          :selected-marche="selected_marche"
-                        />
+                <div v-else>
+                  <div class="px-4 sm:px-6 lg:px-8">
+                    <div class="sm:flex sm:items-center">
+                      <div class="sm:flex-auto" />
+                      <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+                        <button
+                          v-if="!seeMap"
+                          type="button"
+                          class="relative inline-flex items-center block rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"                     
+                          @click="seeMap = !seeMap"
+                        >
+                          <MapPinIcon class="h-6 w-6 text-white" />
+                          Voir sur une carte
+                        </button>
+                        <button
+                          v-if="seeMap"
+                          type="button"
+                          class="relative inline-flex items-center block block rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                          @click="seeMap = !seeMap"
+                        >
+                          <ListBulletIcon class="h-6 w-6 text-white" />
+                          Liste des marches
+                        </button>
                       </div>
-                      <ListMarches
-                        v-if="!seeMap"
-                        :marches="marches"
-                        @selected-marche="selectMarche"
-                      />
+                    </div>
+                    <div class="mt-8 flow-root">
+                      <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                          <div
+                            v-if="seeMap" 
+                            class="overflow-hidden border-t border-gray-200 sm:rounded-lg"
+                          >
+                            <MapComponent
+                              :marches="marches"
+                              :selected-marche="selected_marche"
+                            />
+                          </div>
+                          <ListMarches
+                            v-if="!seeMap"
+                            :marches="marches"
+                            @selected-marche="selectMarche"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </div>  
               </div>
             </div>
           </div>
@@ -347,6 +352,7 @@ export default {
       end_date: '',
       selected_marche: {},
       original_marches: {},
+      isProvinceFiltered: false,
       marches: {},
       data_loaded: false,
       seeMap: false,
@@ -456,13 +462,14 @@ export default {
       this.getMarches();
     },
     refreshMarches() {
-      this.start_date = this.diffDateIso(this.start_date, 0);
+      this.start_date = this.diffDateIso(new Date(), 0);
       this.end_date = this.diffDateIso(this.start_date, 6);
       this.getMarches();
     },
    
     filterCategory(category, item) {
       if (category === 'province') {
+        this.isProvinceFiltered = true;
         this.marches = this.marches.filter(marche => {
           return marche.province === item;
         });
@@ -488,10 +495,12 @@ export default {
       });
     },
     resetFilter() {
+      this.isProvinceFiltered = false;
       this.marches = this.original_marches;
       this.defineFilters();
     },
     getMarches() {
+      this.isProvinceFiltered = false;
       this.data_loaded = false;
       axios.get('https://www.odwb.be/api/explore/v2.1/catalog/datasets/points-verts-de-ladeps/exports/json?lang=fr&qv1=(date%3A[' + this.start_date + '%20TO%20' + this.end_date + '])&timezone=Europe%2FBrussels')
         .then(response => {
