@@ -104,10 +104,12 @@ const mobileFiltersOpen = ref(false);
                         <div class="flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500">
                           <span class="text-sm font-bold text-gray-900 uppercase">Quand</span>
                         </div>
+                        <div class="text-gray-400 px-4 text-sm">
+                          {{ marches.length }} marches — {{ weekDiffForHumans(start_date, end_date) }}
+                        </div>
                       </legend>
                       <div class="space-y-3 pt-4 px-4 pb-2">
-                        {{ marches.length }} marches
-                        du {{ toFrenchDate(start_date) }} au {{ toFrenchDate(end_date) }}
+                        Du {{ toFrenchDate(start_date) }} au {{ toFrenchDate(end_date) }}
 
                         <div class="pt-4">
                           <span class="isolate inline-flex rounded-md shadow-sm">
@@ -184,13 +186,16 @@ const mobileFiltersOpen = ref(false);
   
               <div class="hidden lg:block">
                 <div
-                  class="py-6"
+                  class="py-6 pt-10"
                 >
-                  <legend class="block text-md font-bold text-gray-900 uppercase">
+                  <div class="block text-md font-bold text-gray-900 uppercase">
                     <CalendarIcon class="h-6 w-6 text-blue-500" />
                     Semaine
-                  </legend>
-                  <span class="isolate inline-flex rounded-md shadow-sm">
+                  </div>
+                  <span>
+                    {{ weekDiffForHumans(start_date, end_date) }}
+                  </span>
+                  <span class="isolate inline-flex rounded-md shadow-sm pt-6">
                     <button
                       type="button"
                       class="relative inline-flex items-center rounded-l-md bg-white px-2 py-2 text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
@@ -234,6 +239,7 @@ const mobileFiltersOpen = ref(false);
                 >
                   <fieldset>
                     <legend class="block text-md font-bold text-gray-900 uppercase">
+                      <MapPinIcon class="h-6 w-6 text-blue-500" />
                       {{ section.name }}
                     </legend>
                     <div class="space-y-3 pt-6">
@@ -243,7 +249,7 @@ const mobileFiltersOpen = ref(false);
                         class="flex items-center hover:text-blue-900"
                         @click="filterCategory(section.id, option)"
                       >
-                        <MapPinIcon class="h-6 w-6 text-blue-500" /> {{ option }} <span class="text-gray-500">({{ getCountCategory(section.id, option) }})</span>
+                        {{ option }} <span class="text-gray-500">({{ getCountCategory(section.id, option) }})</span>
                       </button>
                       <button
                         v-if="isProvinceFiltered"
@@ -414,6 +420,32 @@ export default {
     this.getMarches();
   },
   methods: {
+    weekDiffForHumans(start, end) {
+      const start_diff_days = Math.floor((new Date(start) - new Date()) / (1000 * 60 * 60 * 24)) + 1;
+      const end_diff_days = Math.floor((new Date(end) - new Date()) / (1000 * 60 * 60 * 24)) + 1;
+      if (start_diff_days >= 0 && end_diff_days <= 6) {
+        return 'Cette semaine';
+      }
+      else if (start_diff_days > 6 && end_diff_days <= 13) {
+        return 'La semaine prochaine';
+      }
+      else if (start_diff_days > 13) {
+        // count weeks
+        const weeks = Math.floor(start_diff_days / 7);
+        return 'Dans ' + weeks + ' semaines';
+      }
+      else if (end_diff_days < 0 && start_diff_days >= -7) {
+        return 'La semaine passée';
+      }
+      else if (start_diff_days < -7) {
+        // count weeks
+        const weeks = Math.floor(start_diff_days / 7);
+        return 'Il y a ' + Math.abs(weeks) + ' semaines';
+      }
+      else {
+        return 'Du ' + this.toFrenchDate(start) + ' au ' + this.toFrenchDate(end);
+      }
+    },
     selectMarche(marche) {
       // show map with selected marche
       this.seeMap = true;
