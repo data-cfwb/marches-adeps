@@ -63,7 +63,9 @@ const mobileFiltersOpen = ref(false);
                     />
                   </button>
                 </div>
-  
+                <div class="pb-4 pt-4 px-4 text-sm font-bold">
+                  {{ marches.length }} marches trouvées
+                </div>
                 <!-- Filters -->
                 <div
                   v-for="section in filters"
@@ -80,7 +82,7 @@ const mobileFiltersOpen = ref(false);
                     <div
                       v-if="data_loaded"
                     >
-                      <div class="px-4 pb-2 pt-4">
+                      <div class="px-4 pb-2">
                         <div class="space-y-3">
                           <button
                             v-for="option in section.options"
@@ -101,15 +103,14 @@ const mobileFiltersOpen = ref(false);
                       </div>
                   
                       <legend class="w-full px-2">
-                        <div class="flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500">
+                        <div class="flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500 border-t border-gray-200 ">
                           <span class="text-sm font-bold text-gray-900 uppercase">Quand</span>
                         </div>
-                        <div class="text-gray-400 px-4 text-sm">
-                          {{ marches.length }} marches — {{ weekDiffForHumans(start_date, end_date) }}
-                        </div>
                       </legend>
-                      <div class="space-y-3 pt-4 px-4 pb-2">
-                        Du {{ toFrenchDate(start_date) }} au {{ toFrenchDate(end_date) }}
+                      <div class="space-y-3 px-4 pb-2">
+                        {{ weekDiffForHumans(start_date, end_date) }} <br>
+                        <span class="text-gray-800 text-sm">Du {{ toFrenchDate(start_date) }} au {{ toFrenchDate(end_date) }}
+                        </span>
 
                         <div class="pt-4">
                           <span class="isolate inline-flex rounded-md shadow-sm">
@@ -188,14 +189,14 @@ const mobileFiltersOpen = ref(false);
                 <div
                   class="py-6 pt-10"
                 >
-                  <div class="block text-md font-bold text-gray-900 uppercase">
-                    <CalendarIcon class="h-6 w-6 text-blue-500" />
+                  <div class="block text-md font-bold leading-6 text-gray-900 uppercase">
+                    <CalendarIcon class="h-6 w-6 text-blue-500 inline-flex items-baseline" />
                     Semaine
                   </div>
-                  <span>
+                  <div>
                     {{ weekDiffForHumans(start_date, end_date) }}
-                  </span>
-                  <span class="isolate inline-flex rounded-md shadow-sm pt-6">
+                  </div>
+                  <div class="isolate inline-flex rounded-md shadow-sm pt-6">
                     <button
                       type="button"
                       class="relative inline-flex items-center rounded-l-md bg-white px-2 py-2 text-gray-600 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
@@ -216,7 +217,6 @@ const mobileFiltersOpen = ref(false);
                         class="h-6 w-6 text-blue-500"
                         aria-hidden="true"
                       />
-                    
                     </button>
                     <button
                       type="button"
@@ -229,7 +229,7 @@ const mobileFiltersOpen = ref(false);
                         aria-hidden="true"
                       />
                     </button>
-                  </span>
+                  </div>
                 </div>
                 
                 <div
@@ -238,11 +238,11 @@ const mobileFiltersOpen = ref(false);
                   :class="sectionIdx === 0 ? null : 'pt-10'"
                 >
                   <fieldset>
-                    <legend class="block text-md font-bold text-gray-900 uppercase">
-                      <MapPinIcon class="h-6 w-6 text-blue-500" />
+                    <legend class="block text-md leading-6 font-bold text-gray-900 uppercase">
+                      <MapPinIcon class="h-6 w-6 text-blue-500 inline-flex items-baseline" />
                       {{ section.name }}
                     </legend>
-                    <div class="space-y-3 pt-6">
+                    <div class="space-y-3 pt-2">
                       <button
                         v-for="option in section.options"
                         :key="option"
