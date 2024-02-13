@@ -31,15 +31,10 @@
       <div class="flex shrink-0 items-center gap-x-4">
         <div class="hidden sm:flex sm:flex-col sm:items-end">
           <p
-            class="text-sm leading-6 text-gray-400 text-wrap"
+            class="text-sm leading-6 text-gray-400 text-wrap truncate w-68"
           >
             par {{ marche.groupement }}
           </p>
-        
-    
-          <div
-            class="mt-1 flex items-center gap-x-1.5"
-          />
         </div>
        
         <ChevronRightIcon
